@@ -13,12 +13,14 @@ import { Link } from "react-router-dom";
 import { pullAboutDetails } from "./../actions/about.actions"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import About from "../components/about";
+import Skill from "../components/skills";
 
 //redux Hooks
 import { useDispatch, useSelector } from 'react-redux';
+import Skills from '../components/skills';
 
 
-function Copyright({theme}) {
+function Copyright({ theme }) {
   const color = theme === 'dark' ? "#FFF" : "#000";
   return (
     <>
@@ -96,7 +98,7 @@ const MainPage = () => {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={4} className={classes.image} />
       <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
-      { isLoading && <LinearProgress />}
+        {isLoading && <LinearProgress />}
         <div className={classes.toggleTheme}>
           <IconButton onClick={toggleTheme} aria-label="delete">
             {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -118,12 +120,15 @@ const MainPage = () => {
           </div>
           {
             !isLoading && (
-              <About/>
+              <>
+                <About />
+                <Skills />
+              </>
             )
           }
         </div>
         <div className={classes.footer}>
-          <Copyright theme={theme}/>
+          <Copyright theme={theme} />
         </div>
       </Grid>
     </Grid>
