@@ -25,7 +25,7 @@ const About = () => {
     return (
         <div className={classes.pane}>
             <Typography variant="h4" className={classes.title}>
-                Hey there <span class="wave">👋</span><br />
+                Hey there <span className="wave">👋</span><br />
                 This is Sidharth Patnaik.
             </Typography>
             <Typography variant="body1" className={classes.title}>
@@ -34,21 +34,21 @@ const About = () => {
             <Typography style={{ marginTop: "inherit" }} variant="h5" className={classes.title}>
                 His life in a nutshell 🧑‍💼
             </Typography>
-            <Typography variant="body1" className={classes.title}>
-                <List>
-                    {
-                        about.life.map((item, index) => (
-                            <ListItem key={`life-${index}`}>
-                                <ListItemAvatar>
-                                    <DoneAllIcon />
-                                </ListItemAvatar>
-                                <ListItemText
-                                    primary={item}
-                                />
-                            </ListItem>))
-                    }
-                </List>
-            </Typography>
+            <List>
+                {
+                    about.life.map((item, index) => (
+                    <ListItem key={`life-${index}`}>
+                        <ListItemAvatar>
+                            <DoneAllIcon />
+                        </ListItemAvatar>
+                        <ListItemText>
+                            <Typography variant="body1" className={classes.title}>
+                                {item}
+                            </Typography>
+                        </ListItemText>
+                    </ListItem>))
+                }
+            </List>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -10,10 +10,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { Link } from "react-router-dom";
+import { pullAboutDetails } from "./../actions/about.actions"
+import LinearProgress from '@material-ui/core/LinearProgress';
 import About from "../components/about";
 
 //redux Hooks
 import { useDispatch, useSelector } from 'react-redux';
+
 
 function Copyright({theme}) {
   const color = theme === 'dark' ? "#FFF" : "#000";
@@ -68,8 +71,10 @@ const useStyles = makeStyles((theme) => ({
 const MainPage = () => {
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
+  const [isLoading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme);
+  const about = useSelector(state => state.about);
 
   const toggleTheme = () => {
     dispatch({
@@ -81,11 +86,17 @@ const MainPage = () => {
     setTabIndex(newValue);
   };
 
+  useEffect(async () => {
+    await pullAboutDetails(dispatch);
+    setLoading(false);
+  });
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={4} className={classes.image} />
       <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
+      { isLoading && <LinearProgress />}
         <div className={classes.toggleTheme}>
           <IconButton onClick={toggleTheme} aria-label="delete">
             {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -105,7 +116,11 @@ const MainPage = () => {
               <Tab label="Contact" />
             </Tabs>
           </div>
-          <About/>
+          {
+            !isLoading && (
+              <About/>
+            )
+          }
         </div>
         <div className={classes.footer}>
           <Copyright theme={theme}/>

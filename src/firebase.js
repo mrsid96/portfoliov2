@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-
+import 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAfftIb1daTuGvputUlU1LdHSFQSsrY_Ns",
@@ -25,7 +25,14 @@ provider.setCustomParameters({
 
 const signInWithGoogle = () => auth.signInWithPopup(provider);
 
+const getAboutSection = async () => {
+    const db = firebase.firestore();
+    const result = await db.collection("about").doc("Yv8rWhvN4oMwkpj3Q9RQ").get();
+    return result.data();
+}
+
 export {
     auth, 
-    signInWithGoogle
+    signInWithGoogle,
+    getAboutSection
 }
