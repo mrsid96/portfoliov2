@@ -70,6 +70,22 @@ const useStyles = makeStyles((theme) => ({
     color: "#FFF"
   },
 }));
+
+const GetTabbedComponent = ({ tabIndex }) => {
+  if (tabIndex == 0)
+    return (
+      <>
+        <About />
+        <Skills />
+      </>
+    )
+  return (
+    <Typography variant="h4" >
+      Coming soon!
+    </Typography>
+  )
+}
+
 const MainPage = () => {
   const classes = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
@@ -91,7 +107,7 @@ const MainPage = () => {
   useEffect(async () => {
     await pullAboutDetails(dispatch);
     setLoading(false);
-  });
+  }, []);
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -119,12 +135,7 @@ const MainPage = () => {
             </Tabs>
           </div>
           {
-            !isLoading && (
-              <>
-                <About />
-                <Skills />
-              </>
-            )
+            !isLoading && <GetTabbedComponent tabIndex={tabIndex}/>
           }
         </div>
         <div className={classes.footer}>

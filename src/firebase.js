@@ -18,21 +18,24 @@ firebase.initializeApp(firebaseConfig);
 
 // Google SSO
 const auth = firebase.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({
-    prompt: 'select_account'
-});
-
-const signInWithGoogle = () => auth.signInWithPopup(provider);
-
 const getAboutSection = async () => {
     const db = firebase.firestore();
     const result = await db.collection("about").doc("Yv8rWhvN4oMwkpj3Q9RQ").get();
     return result.data();
 }
 
+const updateSkills = async (skills) => {
+    const db = firebase.firestore();
+    const result = await db.collection("about").doc("Yv8rWhvN4oMwkpj3Q9RQ").update({
+        skills
+    });
+    console.log("Result ", result);
+    console.log("Result Data", result.data());
+    return result;
+}
+
 export {
-    auth, 
-    signInWithGoogle,
-    getAboutSection
+    auth,
+    getAboutSection,
+    updateSkills
 }

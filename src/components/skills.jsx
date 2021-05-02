@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GenerateSkillCard = ({ name, subset, progress }) => {
     return (
-        <Paper elevation={3} pad>
+        <Paper elevation={3}>
             <div style={{ padding: "10px" }}>
                 <Typography variant="h6">
                     {name}
@@ -46,8 +46,8 @@ const WorkSkills = () => {
             <Grid container className={classes.root} spacing={3}>
                 {
                     about.skills.map((item, index) => (
-                        <Grid item xs={12} sm={6} md={4} elevation={3}>
-                            <GenerateSkillCard key={`skill-${index}`} name={item.name} subset={item.subset} progress={item.progress} />
+                        <Grid key={`skill-${index}`} item xs={12} sm={6} md={4} elevation={3}>
+                            <GenerateSkillCard name={item.name} subset={item.subset} progress={item.progress} />
                         </Grid>
                     ))
                 }
