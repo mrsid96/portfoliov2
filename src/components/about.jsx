@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
     },
     pane: {
         marginTop: "inherit"
+    },
+    description: {
+        marginTop: "15px"
     }
 }));
 
@@ -28,9 +31,7 @@ const About = () => {
                 Hey there <span className="wave">👋</span><br />
                 This is Sidharth Patnaik.
             </Typography>
-            <Typography variant="body1" className={classes.title}>
-                <p dangerouslySetInnerHTML={{ __html: about.intro }} />
-            </Typography>
+            <Typography variant="body1" className={classes.description} dangerouslySetInnerHTML={{ __html: about.intro }} />
             <Typography style={{ marginTop: "inherit" }} variant="h5" className={classes.title}>
                 His life in a nutshell 🧑‍💼
             </Typography>

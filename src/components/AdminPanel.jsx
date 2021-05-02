@@ -22,9 +22,11 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import HomeIcon from '@material-ui/icons/Home';
 import { useHistory } from 'react-router-dom'
+import { auth } from "../firebase";
 
 //redux Hooks
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSkillsSet } from "../actions/about.actions"
 
 const drawerWidth = 240;
 
@@ -94,6 +96,7 @@ const AdminPanel = () => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
+    const about = useSelector(state => state.about);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -104,17 +107,17 @@ const AdminPanel = () => {
     };
 
     const getIconList = (text) => {
-        switch(text) {
+        switch (text) {
             case "About":
-                return <AccountCircleIcon/>;
+                return <AccountCircleIcon />;
             case "Skills":
-                return <FormatListBulletedIcon/>
+                return <FormatListBulletedIcon />
             case "Projects":
-                return <DescriptionIcon/>
+                return <DescriptionIcon />
             case "Experience":
-                return <WorkIcon/>
+                return <WorkIcon />
             case "Contact":
-                return <PermContactCalendarIcon/>
+                return <PermContactCalendarIcon />
         }
     }
 
@@ -125,7 +128,7 @@ const AdminPanel = () => {
                     <Typography variant="h6" className={classes.title}>
                         Dashboard
                     </Typography>
-                    <Button startIcon={<HomeIcon/>} onClick={() => history.push("/") } color="inherit">Home</Button>
+                    <Button startIcon={<HomeIcon />} onClick={() => history.push("/")} color="inherit">Home</Button>
                     <IconButton edge="end" onClick={handleDrawerOpen} className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
@@ -168,7 +171,10 @@ const AdminPanel = () => {
                     {['Logout'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-                            <ListItemText onClick={() => dispatch({type: "removeUserDetails"})} primary={text} />
+                            <ListItemText onClick={() => {
+                                auth.signOut();
+                                dispatch({ type: "removeUserDetails" });
+                            }} primary={text} />
                         </ListItem>
                     ))}
                 </List>
