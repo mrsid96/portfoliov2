@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
+
+import Home from "./pages/home";
+import dashboard from "./pages/dashboard"
+import NotFound from "./pages/404";
+
+import { useSelector } from 'react-redux';
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 function App() {
+  const themeMode = useSelector(state => state.theme);
+  const myTheme = createMuiTheme({
+    palette: {
+      type: themeMode,
+    }
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={myTheme}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/dashboard" component={dashboard} />
+          <Route exact path="/uh-oh" component={NotFound} />
+          <Redirect to="/uh-oh" />
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }
 
