@@ -11,13 +11,14 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { Link } from "react-router-dom";
 import { pullAboutDetails } from "./../actions/about.actions"
+import { pullExperiences, pullProjects } from "../actions/work.actions"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import About from "../components/about";
-import Skill from "../components/skills";
+import Skills from '../components/skills';
+import Experience from "../components/experience";
 
 //redux Hooks
 import { useDispatch, useSelector } from 'react-redux';
-import Skills from '../components/skills';
 
 
 function Copyright({ theme }) {
@@ -79,6 +80,12 @@ const GetTabbedComponent = ({ tabIndex }) => {
         <Skills />
       </>
     )
+  else if (tabIndex == 1)
+    return (
+      <>
+        <Experience />
+      </>
+    )
   return (
     <Typography variant="h4" >
       Coming soon!
@@ -92,7 +99,6 @@ const MainPage = () => {
   const [isLoading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme);
-  const about = useSelector(state => state.about);
 
   const toggleTheme = () => {
     dispatch({
@@ -106,6 +112,8 @@ const MainPage = () => {
 
   useEffect(async () => {
     await pullAboutDetails(dispatch);
+    await pullExperiences(dispatch);
+    await pullProjects(dispatch);
     setLoading(false);
   }, []);
 
@@ -135,7 +143,7 @@ const MainPage = () => {
             </Tabs>
           </div>
           {
-            !isLoading && <GetTabbedComponent tabIndex={tabIndex}/>
+            !isLoading && <GetTabbedComponent tabIndex={tabIndex} />
           }
         </div>
         <div className={classes.footer}>
