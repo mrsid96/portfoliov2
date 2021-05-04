@@ -34,8 +34,22 @@ const updateSkills = async (skills) => {
     return result;
 }
 
+const getExperience = async () => {
+    const db = firebase.firestore();
+    const result = await db.collection("experience").orderBy("id","desc").get();
+    return result.docs.map(item => item.data());
+}
+
+const getProjects = async () => {
+    const db = firebase.firestore();
+    const result = await db.collection("projects").orderBy("id","desc").get();
+    return result.docs.map(item => item.data());
+}
+
 export {
     auth,
     getAboutSection,
-    updateSkills
+    updateSkills,
+    getExperience,
+    getProjects
 }
