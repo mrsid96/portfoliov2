@@ -1,6 +1,7 @@
 const initialState = {
     experience: [],
-    projects:[]
+    projects:[],
+    currentProject: {},
 }
 
 const workReducer = (state = initialState, action) => {
@@ -14,6 +15,11 @@ const workReducer = (state = initialState, action) => {
             return {
                 ...state,
                 projects: action.payload
+            }
+        case "showProjectDetails": 
+            return {
+                ...state, 
+                currentProject: action.payload
             }
         default:
             return state;

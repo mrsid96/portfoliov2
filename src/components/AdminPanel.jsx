@@ -1,18 +1,8 @@
 import React from 'react'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, Divider, ListItem, ListItemIcon, ListItemText } from  '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@material-ui/core/styles';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -25,8 +15,8 @@ import { useHistory } from 'react-router-dom'
 import { auth } from "../firebase";
 
 //redux Hooks
-import { useDispatch, useSelector } from 'react-redux';
-import { updateSkillsSet } from "../actions/about.actions"
+import { useDispatch } from 'react-redux';
+//import { updateSkillsSet } from "../actions/about.actions"
 
 const drawerWidth = 240;
 
@@ -93,11 +83,9 @@ const useStyles = makeStyles((theme) => ({
 const AdminPanel = () => {
     const history = useHistory();
     const classes = useStyles();
-    const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const dispatch = useDispatch();
-    const about = useSelector(state => state.about);
-
+    
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -116,7 +104,7 @@ const AdminPanel = () => {
                 return <DescriptionIcon />
             case "Experience":
                 return <WorkIcon />
-            case "Contact":
+            default:
                 return <PermContactCalendarIcon />
         }
     }

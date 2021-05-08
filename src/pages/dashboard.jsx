@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Copyright({ theme }) {
-    const color = theme === 'dark' ? "#FFF" : "#000";
     return (
         <>
             <Typography variant="body2" color="textSecondary" align="center">
