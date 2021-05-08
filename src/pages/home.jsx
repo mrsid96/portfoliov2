@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import {CssBaseline, Paper, Grid, Typography, Tabs, Tab, IconButton, LinearProgress} from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import IconButton from '@material-ui/core/IconButton';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import { Link } from "react-router-dom";
 import { pullAboutDetails } from "./../actions/about.actions"
 import { pullExperiences, pullProjects } from "../actions/work.actions"
-import LinearProgress from '@material-ui/core/LinearProgress';
 import About from "../components/about";
 import Skills from '../components/skills';
-import Experience from "../components/experience";
+import WorkComponent from "../components/work";
 
 //redux Hooks
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
   },
   toggleTheme: {
     position: 'absolute',
+    borderBottomRightRadius: "50%"
+  },
+  mainPane: {
+    height: '100vh',
+    overflow: 'auto'
   },
   footer: {
     margin: theme.spacing(8, 4),
@@ -73,19 +71,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GetTabbedComponent = ({ tabIndex }) => {
-  if (tabIndex == 0)
+  if (tabIndex === 0)
     return (
       <>
         <About />
         <Skills />
       </>
     )
-  else if (tabIndex == 1)
-    return (
-      <>
-        <Experience />
-      </>
-    )
+  else if (tabIndex === 1)
+    return <WorkComponent />
   return (
     <Typography variant="h4" >
       Coming soon!
@@ -110,24 +104,27 @@ const MainPage = () => {
     setTabIndex(newValue);
   };
 
-  useEffect(async () => {
-    await pullAboutDetails(dispatch);
-    await pullExperiences(dispatch);
-    await pullProjects(dispatch);
-    setLoading(false);
-  }, []);
+  useEffect(() => {
+    async function fetchData() {
+      await pullAboutDetails(dispatch);
+      await pullExperiences(dispatch);
+      await pullProjects(dispatch);
+      setLoading(false);
+    }
+    fetchData();
+  }, [dispatch]);
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={4} className={classes.image} />
-      <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
+      <Grid className={classes.mainPane} item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
         {isLoading && <LinearProgress />}
-        <div className={classes.toggleTheme}>
+        <Paper elevation={3} className={classes.toggleTheme}>
           <IconButton onClick={toggleTheme} aria-label="delete">
             {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
-        </div>
+        </Paper>
         <div className={classes.paper}>
           <div className={classes.tabPane}>
             <Tabs
