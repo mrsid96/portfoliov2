@@ -62,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
   toggleTheme: {
     position: 'absolute',
+    borderBottomRightRadius: "50%"
+  },
+  mainPane: {
+    height: '100vh',
+    overflow: 'auto'
   },
   footer: {
     margin: theme.spacing(8, 4),
@@ -110,24 +115,27 @@ const MainPage = () => {
     setTabIndex(newValue);
   };
 
-  useEffect(async () => {
-    await pullAboutDetails(dispatch);
-    await pullExperiences(dispatch);
-    await pullProjects(dispatch);
-    setLoading(false);
+  useEffect(() => {
+    async function fetchData() {
+      await pullAboutDetails(dispatch);
+      await pullExperiences(dispatch);
+      await pullProjects(dispatch);
+      setLoading(false);
+    }
+    fetchData();
   }, []);
 
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={4} className={classes.image} />
-      <Grid item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
+      <Grid className={classes.mainPane} item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
         {isLoading && <LinearProgress />}
-        <div className={classes.toggleTheme}>
+        <Paper elevation={3} className={classes.toggleTheme}>
           <IconButton onClick={toggleTheme} aria-label="delete">
             {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
-        </div>
+        </Paper>
         <div className={classes.paper}>
           <div className={classes.tabPane}>
             <Tabs
