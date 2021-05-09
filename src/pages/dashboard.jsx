@@ -65,12 +65,7 @@ function Copyright({ theme }) {
 const Dashboard = () => {
     const classes = useStyles();
     const user = useSelector(state => state.user);
-    const count = useSelector(state => state.count);
     const theme = useSelector(state => state.theme);
-
-    console.log("THis is count", count);
-    console.log("This is user", user);
-    console.log("THis is userId", user.uid);
 
     return (
         <Grid container component="main" className={classes.root}>

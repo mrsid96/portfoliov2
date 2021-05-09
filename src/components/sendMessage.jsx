@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { auth } from "../firebase";
-
-//redux Hooks
-import { useDispatch } from 'react-redux';
+import { Button, TextField } from '@material-ui/core';
+import {addMessage} from "../firebase"
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -17,28 +13,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SignInComponent = (props) => {
-
-    const dispatch = useDispatch();
-    const [login, setLogin] = useState();
+const SendMessage = () => {
+    const [messageDetails, setMessage] = useState({});
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const { email, password } = login;
+        const { name, email, message } = messageDetails;
         try {
-            const data = await auth.signInWithEmailAndPassword(email, password);
-            console.log(data.user.uid);
-            dispatch({
-                type: "addUserDetails",
-                payload: {
-                    email: data.user.email,
-                    uid: data.user.uid,
-                    displayName: data.user.displayName
-                }
-            });
-            dispatch({
-                type: "inc"
-            })
+            console.log({ name, email, message });
+            await addMessage(name, email, message);
         } catch (error) {
             console.log(error);
         }
@@ -46,8 +29,8 @@ const SignInComponent = (props) => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setLogin({
-            ...login,
+        setMessage({
+            ...messageDetails,
             [name]: value,
         });
     };
@@ -60,10 +43,9 @@ const SignInComponent = (props) => {
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="name"
+                label="Full Name"
+                name="name"
                 onChange={handleChange}
             />
             <TextField
@@ -71,11 +53,21 @@ const SignInComponent = (props) => {
                 margin="normal"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
+                id="email"
+                label="Email Address"
+                name="email"
+                onChange={handleChange}
+            />
+            <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="message"
+                label="Message"
                 id="password"
-                autoComplete="current-password"
+                multiline
+                rows={4}
                 onChange={handleChange}
             />
             <Button
@@ -85,10 +77,10 @@ const SignInComponent = (props) => {
                 color="primary"
                 className={classes.submit}
             >
-                Sign In
+                Send message
             </Button>
         </form>
     );
 }
 
-export default SignInComponent;
+export default SendMessage;

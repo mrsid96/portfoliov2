@@ -1,4 +1,4 @@
-import { getAboutSection, updateSkills } from "../firebase";
+import { getAboutSection, updateSkills, updateLinks } from "../firebase";
 
 const pullAboutDetails = async (dispatch) => {
     const data = await getAboutSection();
@@ -17,7 +17,17 @@ const updateSkillsSet = async (dispatch, skills) => {
     })
 }
 
+const updateLinksSet = async (dispatch, links) => {
+    const data = await updateLinks(links);
+
+    dispatch({
+        type: "setAboutDetails",
+        payload: data
+    })
+}
+
 export {
     pullAboutDetails,
-    updateSkillsSet
+    updateSkillsSet,
+    updateLinksSet
 }
