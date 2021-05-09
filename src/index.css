@@ -132,3 +132,8 @@ code {
     transform: rotate(0deg);
   }
 }
+
+.mat-icon{
+  margin-right: 10px;
+  font-size: inherit!important;
+}

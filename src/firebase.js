@@ -18,32 +18,42 @@ firebase.initializeApp(firebaseConfig);
 
 // Google SSO
 const auth = firebase.auth();
+const db = firebase.firestore();
+
 const getAboutSection = async () => {
-    const db = firebase.firestore();
     const result = await db.collection("about").doc("Yv8rWhvN4oMwkpj3Q9RQ").get();
     return result.data();
 }
 
 const updateSkills = async (skills) => {
-    const db = firebase.firestore();
     const result = await db.collection("about").doc("Yv8rWhvN4oMwkpj3Q9RQ").update({
         skills
     });
-    console.log("Result ", result);
-    console.log("Result Data", result.data());
     return result;
 }
 
 const getExperience = async () => {
-    const db = firebase.firestore();
     const result = await db.collection("experience").orderBy("id","desc").get();
     return result.docs.map(item => item.data());
 }
 
 const getProjects = async () => {
-    const db = firebase.firestore();
     const result = await db.collection("projects").orderBy("id","desc").get();
     return result.docs.map(item => item.data());
+}
+
+const addMessage = async (name, email, message) => {
+    const result = await db.collection("messages").add({
+        name, email, message
+    });
+    console.log(result, result.data());
+}
+
+const updateLinks = async (links) => {
+    const result = await db.collection("about").doc("Yv8rWhvN4oMwkpj3Q9RQ").update({
+        links
+    });
+    return result;
 }
 
 export {
@@ -51,5 +61,7 @@ export {
     getAboutSection,
     updateSkills,
     getExperience,
-    getProjects
+    getProjects,
+    addMessage,
+    updateLinks
 }

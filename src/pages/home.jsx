@@ -9,6 +9,7 @@ import { pullExperiences, pullProjects } from "../actions/work.actions"
 import About from "../components/about";
 import Skills from '../components/skills';
 import WorkComponent from "../components/work";
+import ContactComponent from "../components/contact";
 
 //redux Hooks
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +23,11 @@ function Copyright({ theme }) {
         {`© Sidharth Patnaik - ${new Date().getFullYear()} | `}
         <Link style={{ color }} to="/dashboard" color="white">
           Dashboard
-      </Link>
+        </Link>
+        {` | `}
+        <a style={{ color }} href="https://blog.sidharthpatnaik.in/" target="_blank" rel="noreferrer">
+          Blog
+        </a>
       </Typography>
       <Typography variant="body2" color="textSecondary">
         {`Made with ❤️ using React and Firebase`}
@@ -80,6 +85,8 @@ const GetTabbedComponent = ({ tabIndex }) => {
     )
   else if (tabIndex === 1)
     return <WorkComponent />
+  else if (tabIndex === 2)
+      return <ContactComponent/>
   return (
     <Typography variant="h4" >
       Coming soon!

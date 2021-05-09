@@ -1,7 +1,8 @@
 const initialState = {
     intro: "",
     life: [],
-    skills: []
+    skills: [],
+    links: []
 }
 
 const aboutReducer = (state = initialState, action) => {
