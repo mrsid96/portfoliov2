@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 const restraintChars = (string) => string.length > 150 ? `${string.substr(0, 150)} [...]` : string;
 
-const arrayComparators = (source, destination) => source.some(item => destination.includes(item))
+const arrayComparators = (source, destination) => destination.every(val => source.includes(val));
 
 const GenerateProjectCard = ({ name, summary, technologies, showProject, index, classes, applyFilter }) => {
     return (
@@ -91,12 +91,14 @@ const ProjectList = () => {
 
     const generateFilteredProjects = () => {
         const updatedProjects = [];
-        filteredProjects.forEach(project => {
+        work.projects.forEach(project => {
+            console.log(`Looking for ${filterSwap} in ${project.technologies} and got ${arrayComparators(project.technologies, filterSwap)}`)
             if (project.technologies && arrayComparators(project.technologies, filterSwap)) {
                 updatedProjects.push(project)
             }
         });
-        setFilteredProjects(updatedProjects.length !== 0 ? updatedProjects : work.projects);
+        console.log("Length",updatedProjects.length);
+        setFilteredProjects(filterSwap.length !== 0 ? updatedProjects : work.projects);
     }
 
     const applyFilter = (item) => {
