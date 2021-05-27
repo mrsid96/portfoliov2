@@ -10,6 +10,7 @@ import About from "../components/about";
 import Skills from '../components/skills';
 import WorkComponent from "../components/work";
 import ContactComponent from "../components/contact";
+import Shimmer from "../components/Shimmers";
 
 //redux Hooks
 import { useDispatch, useSelector } from 'react-redux';
@@ -126,7 +127,6 @@ const MainPage = () => {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={4} className={classes.image} />
       <Grid className={classes.mainPane} item xs={12} sm={8} md={8} component={Paper} elevation={6} square>
-        {isLoading && <LinearProgress />}
         <Paper elevation={3} className={classes.toggleTheme}>
           <IconButton onClick={toggleTheme} aria-label="delete">
             {theme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -147,7 +147,9 @@ const MainPage = () => {
             </Tabs>
           </div>
           {
-            !isLoading && <GetTabbedComponent tabIndex={tabIndex} />
+            isLoading ? (
+              <Shimmer/>
+            ) : <GetTabbedComponent tabIndex={tabIndex} />
           }
         </div>
         <div className={classes.footer}>
