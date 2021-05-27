@@ -1,14 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from "react-redux"
-import { Typography, IconButton, Chip, Avatar, Link} from '@material-ui/core';
+import { Typography, IconButton, Chip, Avatar, Link, Paper, Grid } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles((theme) => ({
-    pane: {
-        marginTop: "inherit"
-    },
     paper: {
+        marginTop: "inherit",
         padding: '6px 16px',
     },
     techStack: {
@@ -18,6 +16,16 @@ const useStyles = makeStyles((theme) => ({
     techChip: {
         margin: '2px'
     },
+    root: {
+        marginTop: "15px",
+        flexGrow: 1,
+    },
+    imagePaper: {
+        padding: "5px 5px 0px 5px"
+    },
+    image: {
+        width: "100%"
+    }
 }));
 
 const ProjectDetails = () => {
@@ -27,7 +35,7 @@ const ProjectDetails = () => {
     const { currentProject } = work;
 
     return (
-        <div className={classes.pane}>
+        <Paper className={classes.paper}>
             <IconButton onClick={() => {
                 dispatch({
                     type: "showProjectDetails",
@@ -51,19 +59,28 @@ const ProjectDetails = () => {
                     ))
                 }
             </Typography>
-            <Typography variant="body1">
-                {currentProject.summary}
-            </Typography>
-            <Typography style={{ marginTop: "10px" }} variant="body1">
-                {"Detailed description: "}
-            </Typography>
-            <ul>
-                {
-                    currentProject.details && currentProject.details.map((item, index) => (
-                        <li key={`det_${index}`}>{item}</li>
-                    ))
-                }
-            </ul>
+            <Grid container className={classes.root} spacing={3}>
+                <Grid item xs={12} sm={12} md={6} lg={5} elevation={3}>
+                    <Typography variant="body1">
+                        {currentProject.summary}
+                    </Typography>
+                    <Typography style={{ marginTop: "10px" }} variant="body1">
+                        {"Detailed description: "}
+                    </Typography>
+                    <ul>
+                        {
+                            currentProject.details && currentProject.details.map((item, index) => (
+                                <li key={`det_${index}`}>{item}</li>
+                            ))
+                        }
+                    </ul>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={7} elevation={3}>
+                    <Paper className={classes.imagePaper} elevation={3} >
+                        <img alt="Contacts QR" className={classes.image} src={currentProject.image || 'https://firebasestorage.googleapis.com/v0/b/portfolio-1b3d4.appspot.com/o/project.png?alt=media&token=04851617-3cdf-4cde-beeb-5b567c6498cd'} />
+                    </Paper>
+                </Grid>
+            </Grid>
             {
                 currentProject.demo &&
                 <div>
@@ -72,7 +89,7 @@ const ProjectDetails = () => {
                     </Typography>
                 </div>
             }
-        </div>
+        </Paper>
     )
 }
 
