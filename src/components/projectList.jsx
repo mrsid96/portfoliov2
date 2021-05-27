@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, Grid, Chip, Avatar } from '@material-ui/core';
+import { Button, Typography, Grid, Chip, Avatar, Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
 
 import { useSelector, useDispatch } from "react-redux"
 
@@ -24,8 +24,7 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer'
     },
     techStack: {
-        marginBottom: "10px",
-        marginTop: "5px"
+        marginTop: "10px"
     },
     techChip: {
         margin: '2px'
@@ -33,38 +32,55 @@ const useStyles = makeStyles((theme) => ({
     filterPane: {
         float: "right",
         marginLeft: 'auto'
-    }
+    },
+    media: {
+        height: 140,
+    },
 }));
 
-const restraintChars = (string) => string.length > 150 ? `${string.substr(0, 150)} [...]` : string;
+const restraintChars = (string) => string.length > 120 ? `${string.substr(0, 120)} [...]` : string;
 
 const arrayComparators = (source, destination) => destination.every(val => source.includes(val));
 
-const GenerateProjectCard = ({ name, summary, technologies, showProject, index, classes, applyFilter }) => {
+const GenerateProjectCard = ({ name, image, summary, technologies, showProject, index, classes, applyFilter }) => {
     return (
-        <Paper onClick={() => showProject(index)} className={classes.generateProjectPaper} elevation={3}>
-            <Typography variant="h5">
-                {name}
-            </Typography>
-            <Typography variant="body1">
-                {restraintChars(summary)}
-            </Typography>
-            <div className={classes.techStack}>
-                {
-                    technologies.map((item, index) => (
-                        <Chip className={classes.techChip} key={`${name}_${item}_${index}`}
-                            variant="outlined"
-                            size="small"
-                            label={item}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                applyFilter(item);
-                            }}
-                            avatar={<Avatar>{item[0].toUpperCase()}</Avatar>} />
-                    ))
-                }
-            </div>
-        </Paper>
+        <Card className={classes.root}>
+            <CardActionArea onClick={() => showProject(index)}>
+                <CardMedia
+                    className={classes.media}
+                    image={image || 'https://firebasestorage.googleapis.com/v0/b/portfolio-1b3d4.appspot.com/o/project.png?alt=media&token=04851617-3cdf-4cde-beeb-5b567c6498cd'}
+                    title="Contemplative Reptile"
+                />
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                        {name}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        {restraintChars(summary)}
+                    </Typography>
+                    <div className={classes.techStack}>
+                        {
+                            technologies.map((item, index) => (
+                                <Chip className={classes.techChip} key={`${name}_${item}_${index}`}
+                                    variant="outlined"
+                                    size="small"
+                                    label={item}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        applyFilter(item);
+                                    }}
+                                    avatar={<Avatar>{item[0].toUpperCase()}</Avatar>} />
+                            ))
+                        }
+                    </div>
+                </CardContent>
+            </CardActionArea>
+            <CardActions>
+                <Button onClick={() => showProject(index)} size="small" color="white">
+                    Learn More
+                </Button>
+            </CardActions>
+        </Card>
     )
 }
 
@@ -97,7 +113,6 @@ const ProjectList = () => {
                 updatedProjects.push(project)
             }
         });
-        console.log("Length",updatedProjects.length);
         setFilteredProjects(filterSwap.length !== 0 ? updatedProjects : work.projects);
     }
 
@@ -124,8 +139,7 @@ const ProjectList = () => {
             <Typography variant="h5" className={classes.title}>
                 Some of the projects
             </Typography>
-            *Click on a tag from below to filter apply filter. <br/>
-            *Click on a project to view more details.
+            *Click on a tag from below to filter apply filter. <br />
             <div className={classes.filterPane}>
                 {filters.length > 0 && <b>Filters: </b>}
                 {
@@ -147,8 +161,9 @@ const ProjectList = () => {
             <Grid container className={classes.root} spacing={3}>
                 {
                     filteredProjects.map((item, index) => (
-                        <Grid key={`project-${index}`} item xs={12} sm={6} md={6} elevation={3}>
+                        <Grid key={`project-${index}`} item xs={12} sm={6} md={6} lg={4} elevation={3}>
                             <GenerateProjectCard
+                                image={item.image}
                                 name={item.projectName}
                                 summary={item.summary}
                                 technologies={item.technologies}
