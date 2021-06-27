@@ -12,6 +12,7 @@ import NotFound from "./pages/404";
 import { useSelector } from 'react-redux';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
+//this is my change
 function App() {
   const themeMode = useSelector(state => state.theme);
   const myTheme = createMuiTheme({
